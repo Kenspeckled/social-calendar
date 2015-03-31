@@ -1,0 +1,14 @@
+.row
+  .col-sm-12
+    h1 Create a URL
+.row
+  .col-sm-12
+    form method="POST" action="/admin/user/new"
+      .form-group
+        label for="email" Email
+        input.form-control id="email" name="email" type="text"
+      .form-group
+        label for="password" Password
+        input.form-control id="password" name="password" type="password"
+
+      button.btn.btn-primary type="submit" Submit
