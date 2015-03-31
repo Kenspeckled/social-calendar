@@ -4,7 +4,6 @@ require 'sinatra/base'
 class URLShortenerAdmin < Sinatra::Base
   require './url_store.rb'
   require './admin.rb'
-  enable :sessions
 
   before do
     #is_authenticated = BCrypt::Engine.hash_secret(password, salt)...
@@ -64,6 +63,12 @@ class URLShortener < Sinatra::Base
   require './url_store.rb'
   require './analytics.rb'
   use URLShortenerAdmin
+  require 'yaml'
+
+  config = YAML.load_file('config.yml')
+
+  enable :sessions
+  set :session_secret, config['session_secret']
 
   not_found do
     "not found"
