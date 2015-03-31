@@ -2,18 +2,12 @@ require 'sinatra/base'
 
 
 class URLShortenerAdmin < Sinatra::Base
-  register do
-    def check(name)
-      condition do
-        error 401 unless send(name) == true
-      end
-    end
-  end
-
-  helpers do
-    def authenticated?
-      #BCrypt::Engine.hash_secret(password, salt)...
-      true
+  require './url_store.rb'
+  before do
+    #is_authenticated = BCrypt::Engine.hash_secret(password, salt)...
+    is_authenticated = true
+    if !is_authenticated
+      error 401
     end
   end
 
@@ -21,17 +15,30 @@ class URLShortenerAdmin < Sinatra::Base
     "unauthorized"
   end
 
-  get '/admin', check: :authenticated? do
+  get '/admin' do
     slim :show, layout: :'layouts/index'
   end
 
-  get '/admin/create', check: :authenticated? do
+  get '/admin/create' do
     slim :create, layout: :'layouts/index'
+  end
+
+  post '/admin/url/new' do
+    key = params['key']
+    url = params['url']
+    if url and url != ''
+      if key and key == '' 
+        key = rand(36**5).to_s(36)
+      end
+      URLStore.set(key, url)
+    end
+    redirect '/admin'
   end
 end
 
 class URLShortener < Sinatra::Base
   require './url_store.rb'
+  require './analytics.rb'
   use URLShortenerAdmin
 
   not_found do 

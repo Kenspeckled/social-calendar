@@ -3,4 +3,13 @@
     h1 Create a URL
 .row
   .col-sm-12
-    p hi
+    form method="POST" action="/admin/url/new"
+      .form-group
+        label for="key-input" Key
+        input.form-control id="key-input" name="key" type="text"
+        .help-block Leave blank for a random input
+      .form-group
+        label for="url-input" URL
+        input.form-control id="url-input" name="url" type="text" placeholder="http://www.discoverscotland.co.uk/"
+
+      button.btn.btn-primary type="submit" Submit
