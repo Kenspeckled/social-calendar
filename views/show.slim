@@ -12,13 +12,13 @@
     table.table.table-bordered
       thead
         tr
-          th
+          th.col-sm-3
             a href="/admin?sort=name&sort_order=#{@next_sort_order}" Name
-          th Url
-          th Target
-          th 
+          th.col-sm-2 Url
+          th.col-sm-4 Target
+          th.col-sm-2 
             a href="/admin?sort=date&sort_order=#{@next_sort_order}" Created On
-          th 
+          th.col-sm-1
             a href="/admin?sort=visits&sort_order=#{@next_sort_order}" Visit Count
       tbody
         -@urls.each do |url|
@@ -27,6 +27,6 @@
             td
               a href="#{@base_url}/#{url['key']}" ="#{@readable_base_url}/#{url['key']}"
             td= url['url']
-            td= Time.parse(url['created_at']).strftime("%d %b %Y") if url['created_at']
+            td= Time.parse(url['created_at']).strftime("%d %b %Y %H:%M") if url['created_at']
             td= url['counter']
 
