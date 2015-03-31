@@ -47,7 +47,7 @@ class URLShortenerAdmin < Sinatra::Base
     if params['sort'] == 'name'
       @urls.sort_by!{|v| v['name'].to_s.downcase }
     elsif params['sort'] == 'date'
-      @urls.sort_by!{|v| v['created_at'].to_i }
+      @urls.sort_by!{|v| v['created_at'] ? Time.parse(v['created_at']).to_i : 0  }
     elsif params['sort'] == 'visits'
       @urls.sort_by!{|v| v['counter'].to_i }
     end
