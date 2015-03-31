@@ -69,6 +69,12 @@ class URLShortenerAdmin < Sinatra::Base
     name = params['name']
     key = params['key']
     url = params['url']
+    utm_campaign = params['utm_campaign']
+    utm_source = params['utm_source']
+    utm_medium = params['utm_medium']
+    if utm_campaign and utm_source and utm_medium
+      url = "#{url}?utm_source=#{utm_source}&utm_medium=#{utm_medium}&utm_campaign=#{utm_campaign}"
+    end
     if name and name != '' and url and url != ''
       if key and key == ''
         key = rand(36**5).to_s(36)

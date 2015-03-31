@@ -7,15 +7,30 @@
       .form-group
         label for="name-input" Name
         span.required*
-        input.form-control id="name-input" name="name" type="text" placeholder="Great blog post"
+        input.form-control.input-lg id="name-input" name="name" type="text" placeholder="Great blog post"
         .help-block Just to help organise and find shortened URLs
       .form-group
-        label for="key-input" Key
-        input.form-control id="key-input" name="key" type="text" placeholder="k3Yz"
+        label for="key-input" Shortened URL Key
+        input.form-control.input-lg id="key-input" name="key" type="text" placeholder="k3Yz"
         .help-block Leave blank for a random input
       .form-group
         label for="url-input" URL
         span.required*
-        input.form-control id="url-input" name="url" type="text" placeholder="http://www.discoverscotland.co.uk/"
+        input.form-control.input-lg id="url-input" name="url" type="text" placeholder="http://www.discoverscotland.co.uk/"
+      hr
+      h4 Campaign Tracking 
+      .form-group
+        label for="utm_campaign-input" Campaign
+        input.form-control.input-sm id="utm_campaign-input" name="utm_campaign" type="text" placeholder="blog_post_1"
+        .help-block The name of the campaign with what is being shared (utm_campaign)
+      .form-group
+        label for="utm_medium-input" Medium 
+        input.form-control.input-sm id="utm_medium-input" name="utm_medium" type="text" placeholder="tweet"
+        .help-block How the the link will be shared (utm_medium)
+      .form-group
+        label for="utm_source-input" Source 
+        input.form-control.input-sm id="utm_source-input" name="utm_source" type="text" placeholder="twitter"
+        .help-block The service or outlet that will share the link (utm_source)
+      br
 
       button.btn.btn-primary type="submit" Submit
