@@ -1,4 +1,5 @@
 require 'sinatra'
+require './url_store.rb'
 
 not_found do 
   "not found"
@@ -6,8 +7,7 @@ end
 
 get /(\w+)/ do
   shortened_url = params['captures']
-  # full_url = Database.find_by(shortened_url)
-  full_url = "http://www.discoverscotland.co.uk"
+  full_url = URLStore.find(shortened_url)
   if full_url
     redirect full_url
   else
