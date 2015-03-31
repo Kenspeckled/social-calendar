@@ -1,11 +1,31 @@
 require 'sinatra/base'
 
+
 class URLShortenerAdmin < Sinatra::Base
-  get '/admin' do
+  register do
+    def check(name)
+      condition do
+        error 401 unless send(name) == true
+      end
+    end
+  end
+
+  helpers do
+    def authenticated?
+      #BCrypt::Engine.hash_secret(password, salt)...
+      true
+    end
+  end
+
+  error 401 do
+    "unauthorized"
+  end
+
+  get '/admin', check: :authenticated? do
     slim :show, layout: :'layouts/index'
   end
 
-  get '/admin/create' do
+  get '/admin/create', check: :authenticated? do
     slim :create, layout: :'layouts/index'
   end
 end
