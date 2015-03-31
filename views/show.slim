@@ -1,6 +1,25 @@
 .row
   .col-sm-12
-    h1 Show
+    .col-sm-10
+      h1 Show
+    .col-sm-2
+      h1
+        form action="/admin/create"
+          input.btn.btn-primary.btn-block type="submit" value="Create"
+
 .row
   .col-sm-12
-    p hi
+    table.table.table-bordered
+      thead
+        tr
+          th key
+          th url
+          th counter
+      tbody
+        -@urls.each do |url|
+          tr
+            td
+              a href="#{url[:key]}" =url[:key]
+            td= url[:long_url]
+            td= url[:counter]
+

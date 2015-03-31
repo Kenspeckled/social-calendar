@@ -16,6 +16,7 @@ class URLShortenerAdmin < Sinatra::Base
   end
 
   get '/admin' do
+    @urls = URLStore.get_all
     slim :show, layout: :'layouts/index'
   end
 
@@ -27,7 +28,7 @@ class URLShortenerAdmin < Sinatra::Base
     key = params['key']
     url = params['url']
     if url and url != ''
-      if key and key == '' 
+      if key and key == ''
         key = rand(36**5).to_s(36)
       end
       URLStore.set(key, url)
@@ -41,18 +42,18 @@ class URLShortener < Sinatra::Base
   require './analytics.rb'
   use URLShortenerAdmin
 
-  not_found do 
+  not_found do
     "not found"
   end
 
   get /(\w+)/ do
-    shortened_url = params['captures']
+    shortened_url = params['captures'].first
     full_url = URLStore.find(shortened_url)
     if full_url
       Analytics.add_to_counter(shortened_url)
       redirect full_url
     else
-      halt 404 
+      halt 404
     end
   end
 end
