@@ -5,11 +5,17 @@
   .col-sm-12
     form method="POST" action="/admin/url/new"
       .form-group
+        label for="name-input" Name
+        span.required*
+        input.form-control id="name-input" name="name" type="text" placeholder="Great blog post"
+        .help-block Just to help organise and find shortened URLs
+      .form-group
         label for="key-input" Key
-        input.form-control id="key-input" name="key" type="text"
+        input.form-control id="key-input" name="key" type="text" placeholder="k3Yz"
         .help-block Leave blank for a random input
       .form-group
         label for="url-input" URL
+        span.required*
         input.form-control id="url-input" name="url" type="text" placeholder="http://www.discoverscotland.co.uk/"
 
       button.btn.btn-primary type="submit" Submit

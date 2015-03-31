@@ -8,14 +8,12 @@ class Admin < Sinatra::Base
 
   def self.authenticate(email, password)
     user = @redis.hgetall("admin:#{email}")
-    if user && user["password_hash"] == BCrypt::Engine.hash_secret(password, user["password_salt"])
+    if user && user["password_salt"] && user["password_hash"] && user["password_hash"] == BCrypt::Engine.hash_secret(password, user["password_salt"])
       user
-    else
-      nil
     end
   end
 
-  def self.new(email, password)
+  def self.create(email, password)
     password_salt = BCrypt::Engine.generate_salt
     password_hash = BCrypt::Engine.hash_secret(password, password_salt)
     @redis.hset("admin:#{email}", "email", email)
