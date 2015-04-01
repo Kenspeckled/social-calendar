@@ -77,7 +77,7 @@ class URLShortenerAdmin < Sinatra::Base
     end
     if name and name != '' and target and target != ''
       if key and key == ''
-        key = rand(36**5).to_s(36)
+        key = rand(36**3).to_s(36)
       end
       halt 400 if URLStore.find(key)
       URLStore.set({name: name, key: key, target: target})
