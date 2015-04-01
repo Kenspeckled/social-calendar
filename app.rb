@@ -28,19 +28,19 @@ class URLShortenerAdmin < Sinatra::Base
   require 'yaml'
   config = YAML.load_file('config.yml')
 
+  enable :sessions
+  set :session_secret, config['session_secret']
+
   use LogIn
 
   error 400 do
     slim :'errors/400', layout: :'layouts/index'
   end
 
-  before do
+  get '/admin' do
     if !session[:user_email]
       error 401
     end
-  end
-
-  get '/admin' do
     @base_url = config['base_url'] || request.url.sub(request.path, "").sub("?#{request.query_string}", "")
     @readable_base_url = @base_url.to_s.sub("http://","").sub("https://","")
     @shortened_url_collection = URLStore.get_all
@@ -62,10 +62,16 @@ class URLShortenerAdmin < Sinatra::Base
 
 
   get '/admin/create' do
+    if !session[:user_email]
+      error 401
+    end
     slim :create, layout: :'layouts/index'
   end
 
   post '/admin/url/new' do
+    if !session[:user_email]
+      error 401
+    end
     name = params['name']
     key = params['key']
     target = params['target']
@@ -96,12 +102,6 @@ end
 class URLShortener < Sinatra::Base
   require './url_store.rb'
   require './analytics.rb'
-  require 'yaml'
-
-  config = YAML.load_file('config.yml')
-
-  enable :sessions
-  set :session_secret, config['session_secret']
 
   not_found do
     "not found"
