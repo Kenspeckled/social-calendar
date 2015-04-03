@@ -1,7 +1,7 @@
 require 'sinatra'
 
 get '/' do
-  erb :index
+  slim :index
 end
 
 
