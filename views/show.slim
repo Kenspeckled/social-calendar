@@ -2,31 +2,5 @@
   .col-sm-12
     .col-sm-10
       h1 Show
-    .col-sm-2
-      h1
-        form action="/admin/create"
-          input.btn.btn-primary.btn-block type="submit" value="Create"
 
-.row
-  .col-sm-12
-    table.table.table-bordered
-      thead
-        tr
-          th.col-sm-3
-            a href="/admin?sort=name&sort_order=#{@next_sort_order}" Name
-          th.col-sm-2 Url
-          th.col-sm-4 Target
-          th.col-sm-2
-            a href="/admin?sort=date&sort_order=#{@next_sort_order}" Created On
-          th.col-sm-1
-            a href="/admin?sort=visits&sort_order=#{@next_sort_order}" Visit Count
-      tbody
-        -@shortened_url_collection.each do |shortened_url|
-          tr
-            td= shortened_url['name']
-            td
-              a href="#{@base_url}/#{shortened_url['key']}" ="#{@readable_base_url}/#{shortened_url['key']}"
-            td= shortened_url['target']
-            td= Time.parse(shortened_url['created_at']).strftime("%d %b %Y %H:%M") if shortened_url['created_at']
-            td= shortened_url['visit_count']
 
