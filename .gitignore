@@ -2,3 +2,4 @@
 config.yml
 *.swp
 *.rdb
+secrets.yml
