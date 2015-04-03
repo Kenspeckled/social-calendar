@@ -14,7 +14,7 @@ class SocialCalendar
     @redis.incr("social_calendar_id")
     id = @redis.get("social_calendar_id")
     @redis.hmset("social_calendar:#{id}",
-      "scheduled_time", scheduled_time,
+      "scheduled_time", time_since_epoch,
       "message", message,
       "service", service,
       "created_at", Time.now)
