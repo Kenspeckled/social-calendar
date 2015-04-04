@@ -1,7 +1,9 @@
 source "https://rubygems.org"
 
 gem 'redis'
+gem 'sprockets', '~> 2.11'
 gem 'sinatra'
 gem 'shotgun'
 gem 'slim'
-gem 'bcrypt-ruby'
+gem 'sass'
+gem 'coffee-script'

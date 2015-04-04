@@ -1,7 +1,12 @@
 require 'sinatra'
+require './assets'
+require 'slim'
 
-get '/' do
-  slim :index
+class SocialCalendarApp < Sinatra::Base
+  use Assets
+
+  get '/' do
+    slim :index
+  end
+
 end
-
-

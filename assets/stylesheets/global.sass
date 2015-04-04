@@ -1,0 +1,29 @@
+@import imports/mixins
+
+html
+  height: 100%
+
+*
+  +box-sizing(border-box)
+  -ms-word-wrap: break-word
+  word-wrap: break-word
+  padding: 0
+  margin: 0
+  &:after, &:before
+    +box-sizing(border-box)
+    padding: 0
+    margin: 0
+
+body
+  font-family: 'Lato', Calibri, Arial, sans-serif
+  background: #f9f9f9 
+  font-weight: 300
+  font-size: 15px
+  color: #333
+  height: 100%
+
+a
+  color: #555
+  text-decoration: none
+  cursor: pointer
+
