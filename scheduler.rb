@@ -1,21 +1,25 @@
 require './social_platform'
 class Scheduler
   @should_poll = false
+  @poller = nil
 
-  def self.poll 
+  def self.poll
     return if !@should_poll
     send_messages
     sleep 60
-    poll 
+    poll
   end
 
   def self.start_polling
     @should_poll = true
-    poll
+    @poller = Thread.new do 
+      Scheduler.poll
+    end
   end
 
   def self.stop_polling
     @should_poll = false
+    @poller.exit if @poller
   end
 
   private
