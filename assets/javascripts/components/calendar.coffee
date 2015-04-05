@@ -18,8 +18,8 @@ window.Calendar = React.createClass
     startOfMonth = currentDate.clone().startOf('month')
     dayArray = []
     daysInMonth = currentDate.daysInMonth()
-    startingBlankDays = 7 - startOfMonth.day() if startOfMonth.day() > 0
-    endingBlankDays = 7 - ((daysInMonth + startingBlankDays) % 7) if (daysInMonth + startingBlankDays) % 7
+    startingBlankDays = if startOfMonth.day() > 0 then 7 - startOfMonth.day() else 0
+    endingBlankDays = if ((daysInMonth + startingBlankDays) % 7) then 7 - ((daysInMonth + startingBlankDays) % 7) else 0
     _.times startingBlankDays, ->
       dayArray.push(null)
     _.times daysInMonth, (d) ->
@@ -30,6 +30,7 @@ window.Calendar = React.createClass
       dayArray.push(null)
     dayRows = _.chunk(dayArray, 7)
     dayRows
+  
     
 
   render: ->
