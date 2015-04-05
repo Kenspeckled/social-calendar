@@ -9,4 +9,9 @@ class SocialCalendarApp < Sinatra::Base
     slim :index
   end
 
+  post '/messages/new' do
+    # Do something with params
+    redirect to '/'
+  end
+
 end
