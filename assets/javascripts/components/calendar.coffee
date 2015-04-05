@@ -1,7 +1,8 @@
+#= require './calendarDay'
 {div, span, nav, h2, h3} = React.DOM
 
 window.Calendar = React.createClass
-  displayName: 'Calendar',
+  displayName: 'Calendar'
   getInitialState: ->
     date = moment()
     dayRows = @getDayRows(date)
@@ -30,12 +31,11 @@ window.Calendar = React.createClass
       dayArray.push(null)
     dayRows = _.chunk(dayArray, 7)
     dayRows
-  
-    
 
   render: ->
     div className: 'custom-calendar-wrap',
       div className: 'custom-inner', 
+        div id: 'calendar-overlay-container'
         div className: 'custom-header clearfix',
           nav null,
             span className: 'custom-prev', onClick: @prevMonth
@@ -59,6 +59,4 @@ window.Calendar = React.createClass
                     if !day
                       return div null
                     else
-                      console.log day
-                      return div className: (if day.isSame(moment(), 'day') then 'fc-today' else ''),
-                        span className: 'fc-date', day.date()
+                      return React.createElement CalendarDay, date: day
