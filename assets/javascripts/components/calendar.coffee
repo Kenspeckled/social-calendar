@@ -3,18 +3,23 @@
 
 window.Calendar = React.createClass
   displayName: 'Calendar'
+
   getInitialState: ->
     date = moment()
     dayRows = @getDayRows(date)
-    {date, dayRows}
+    dayMessages = {} 
+    {date, dayRows, dayMessages}
+
   nextMonth: ->
     date = @state.date.clone().add(1, 'month')
     dayRows = @getDayRows(date)
     @setState {date, dayRows}
+
   prevMonth: ->
     date = @state.date.clone().subtract(1, 'month')
     dayRows = @getDayRows(date)
     @setState {date, dayRows}
+
   getDayRows: (currentDate) ->
     startOfMonth = currentDate.clone().startOf('month')
     dayArray = []
@@ -23,14 +28,31 @@ window.Calendar = React.createClass
     endingBlankDays = if ((daysInMonth + startingBlankDays) % 7) then 7 - ((daysInMonth + startingBlankDays) % 7) else 0
     _.times startingBlankDays, ->
       dayArray.push(null)
-    _.times daysInMonth, (d) ->
+    _.times daysInMonth, (d) =>
       day = currentDate.clone().date(d+1)
+      day.startOf 'day'
       day.year currentDate.year()
+      @getMessagesForDay(day)
       dayArray.push day
     _.times endingBlankDays, ->
       dayArray.push(null)
     dayRows = _.chunk(dayArray, 7)
     dayRows
+
+  getMessagesForDay: (date) ->
+    dateString = moment(date).format("YYYY-MM-DD")
+    p = new Promise (resolve, reject) ->
+      r = new XMLHttpRequest
+      r.addEventListener 'readystatechange', ->
+        if r.readyState == 4 and r.status == 200
+          resolve(r.responseText)
+      r.open 'GET', '/messages/date/'+dateString, true
+      r.send()  
+    p.then (response) =>
+      messages = JSON.parse(response).messages
+      @setState (state, props) ->
+        state.dayMessages[+date] = messages
+        return state  
 
   render: ->
     div className: 'custom-calendar-wrap',
@@ -59,4 +81,4 @@ window.Calendar = React.createClass
                     if !day
                       return div null
                     else
-                      return React.createElement CalendarDay, date: day
+                      return React.createElement CalendarDay, date: day, messages: @state.dayMessages[+day]

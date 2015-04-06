@@ -5,7 +5,7 @@ window.Message = React.createClass
     @props.showFormCallback(@props.message)
   render: ->
     div className: 'message text-left',
-      div className: 'time', moment(@props.message.dateTime).format("HH:mm")
+      div className: 'time', moment(@props.message.time*1000).format("HH:mm")
       a className: 'edit', onClick: @editMessage, 'Edit'
       h5 null,
         i className: 'fa fa-'+@props.message.service
