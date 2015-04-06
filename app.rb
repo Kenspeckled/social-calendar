@@ -14,4 +14,9 @@ class SocialCalendarApp < Sinatra::Base
     redirect to '/'
   end
 
+  post '/messages/:id/edit' do
+    # Do something with params
+    redirect to '/'
+  end
+
 end

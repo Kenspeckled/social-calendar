@@ -5,7 +5,7 @@ window.CalendarOverlay = React.createClass
   displayName: 'CalendarOverlay'
 
   getInitialState: ->
-    style: {}, showForm: false
+    style: {}, showForm: false, message: null
 
   componentDidMount: ->
     setTimeout( =>
@@ -21,7 +21,8 @@ window.CalendarOverlay = React.createClass
       @setState showForm: false 
     , 500 
 
-  showForm: ->
+  showForm: (message) ->
+    @setState message: message if message 
     @setState showForm: true 
 
   render: ->
@@ -29,7 +30,7 @@ window.CalendarOverlay = React.createClass
       h4 null, "Events for " + @props.date.format("MMMM Do YYYY")
       span className: 'custom-content-close', onClick: @closeOverlay
       if @state.showForm
-        React.createElement CalendarForm, date: @props.date
+        React.createElement CalendarForm, date: @props.date, message: @state.message
       else
-        React.createElement MessageList, messages: @props.messages, showFormCallback: @showForm
+        React.createElement MessageList, messages: @props.messages, showFormCallback: @showForm, date: @props.date
 

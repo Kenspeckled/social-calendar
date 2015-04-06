@@ -20,16 +20,19 @@ window.CalendarDay = React.createClass
     if !@state.disabled
       # get messages via ajax
       messages = [
+        id: 12
         message: 'hello, this is one message'
-        service: 'Twitter'
+        service: 'twitter'
         dateTime: 32459502
       ,
+        id: 13
         message: 'hello, this is one message'
-        service: 'Twitter'
+        service: 'twitter'
         dateTime: 324595042
       ,
+        id: 14
         message: 'Dad\'s lost his home grown garlic. This has potential to turn out worse than any greek tragedy. Dad\'s lost his home grown garlic. This has potential to turn out worse than any greek tragedy'
-        service: 'Facebook'
+        service: 'facebook'
         dateTime: 324595042
       ]
       React.render(
