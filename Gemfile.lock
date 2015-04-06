@@ -8,6 +8,7 @@ GEM
     execjs (2.4.0)
     hike (1.2.3)
     multi_json (1.11.0)
+    oauth (0.4.7)
     rack (1.6.0)
     rack-protection (1.5.3)
       rack
@@ -35,6 +36,7 @@ PLATFORMS
 
 DEPENDENCIES
   coffee-script
+  oauth
   redis
   sass
   shotgun

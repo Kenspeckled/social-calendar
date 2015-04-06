@@ -1,22 +1,19 @@
 require 'oauth'
 require 'yaml'
+require 'cgi'
 class TwitterAPIWrapper
-  attr_reader :client, :secrets
 
-  def initialize 
-    @secrets = YAML.load_file('secrets.yml')
-    @client = create_access_token
-  end
-
-  def tweet(message)
+  def self.tweet(message)
     tweet_uri = 'https://api.twitter.com/1.1/statuses/update.json'
-    status = "#{tweet_uri}?status=#{URI.escape(message)}"
+    status = "#{tweet_uri}?status=#{CGI.escape(message)}"
+    client = TwitterAPIWrapper.create_access_token
     client.post(status)
   end
 
   private
 
-  def create_access_token
+  def self.create_access_token
+    secrets = YAML.load_file('./secrets.yml')
     consumer = OAuth::Consumer.new(secrets['API_Key'], secrets['API_Secret'], { site: "http://api.twitter.com", scheme: :header })
     OAuth::AccessToken.from_hash(consumer, { oauth_token: secrets['oauth_token'], oauth_token_secret: secrets['oauth_token_secret'] })
   end

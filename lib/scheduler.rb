@@ -1,12 +1,14 @@
-require './social_platform'
+require './lib/social_platform'
+require './lib/data_store'
 class Scheduler
   @should_poll = false
   @poller = nil
 
   def self.poll
     return if !@should_poll
+    puts "\nSCHEDULER: Polling\n"
     send_messages
-    sleep 60
+    sleep rand(40..60) # hide the fact this is automated 
     poll
   end
 
@@ -15,6 +17,7 @@ class Scheduler
     @poller = Thread.new do 
       Scheduler.poll
     end
+    @poller.join
   end
 
   def self.stop_polling
@@ -23,19 +26,15 @@ class Scheduler
   end
 
   private
-  
-  @messages = [
-    {time: Time.now, message: "Hello", service: 'twitter'},
-    {time: Time.now + 65, message: "World", service: 'twitter'},
-    {time: Time.now + 130, message: "Just Tweeting", service: 'twitter'},
-  ]
 
   def self.send_messages
-    # FIXME: messages needs to access db
-    @messages.select do |message|
-      message_time = minutes_since_epoch(message[:time])
+    messages = DataStore.where_date(Time.now.year, Time.now.month, Time.now.day)
+    puts "\nSCHEDULER: Lining up today's messages:\n", messages, "\n"
+    messages.select do |message|
+      message_time = minutes_since_epoch(message["time"])
       current_time = minutes_since_epoch(Time.now)
       if message_time == current_time
+        puts "\nSCHEDULER: Sending\n", message
         SocialPlatform.send_to_social_service(message)
       end
     end

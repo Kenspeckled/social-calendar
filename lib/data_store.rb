@@ -12,8 +12,6 @@ class DataStore
   def self.update(id, args)
     time = args[:time]
     time_since_epoch = Time.at(time).to_i if time
-    puts "Time", time
-    puts "Time Since Epoch", time_since_epoch 
     message = args[:message]
     service = args[:service]
     if !id or !time_since_epoch or !message or !service

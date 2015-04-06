@@ -1,11 +1,20 @@
 require 'sinatra'
 require './assets'
 require './lib/data_store'
+require './lib/scheduler'
 require 'slim'
+require 'sass'
+require 'coffee_script'
 require 'json'
 
 class SocialCalendarApp < Sinatra::Base
   use Assets
+
+  scheduler = fork do 
+    puts "\nStarting scheduler\n"
+    Scheduler.start_polling
+  end
+  Process.detach(scheduler)
 
   get '/' do
     slim :index
