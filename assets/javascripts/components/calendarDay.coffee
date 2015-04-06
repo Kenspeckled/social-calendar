@@ -20,8 +20,8 @@ window.CalendarDay = React.createClass
     @setState 
       dayClass: classArray.join(' ')
       disabled: isDisabled
-      twitterMessageCount: _.where(@props.messages, service: 'twitter').length
-      facebookMessageCount: _.where(@props.messages, service: 'facebook').length
+      twitterMessageCount: _.where(nextProps.messages, service: 'twitter').length
+      facebookMessageCount: _.where(nextProps.messages, service: 'facebook').length
 
   handleClick: ->
     if !@state.disabled

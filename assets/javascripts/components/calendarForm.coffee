@@ -7,7 +7,7 @@ window.CalendarForm = React.createClass
     else
       action = '/messages/new' 
     action: action
-    time: moment(@props.message.time*1000).format("HH:mm")
+    time: if +@props.message.time then moment(+@props.message.time).format("HH:mm") else moment().format("HH:mm")
     message: @props.message.message || '' 
     characterCountClass: '' 
     characterCount: @props.message.length || 0
@@ -15,7 +15,7 @@ window.CalendarForm = React.createClass
 
   componentWillReceiveProps: ->
     @setMessageContent @props.message.message 
-    @setState service: (@props.message.service || 'twitter'), time: moment(@props.message.time*1000).format("HH:mm")
+    @setState service: (@props.message.service || 'twitter'), time: moment(+@props.message.time).format("HH:mm")
     if @props.message.id
       @setState action: '/messages/'+ @props.message.id + '/edit' 
     else
@@ -42,7 +42,7 @@ window.CalendarForm = React.createClass
   render: ->
     div className: 'col-xs-12',
       form id: 'message-form', method: 'post', action: @state.action,
-        input type: 'hidden', name: 'date', value: +@props.date/1000
+        input type: 'hidden', name: 'date', value: +@props.date/1000 #convert to seconds
         if @props.message.id
           input type: 'hidden', name: 'message', value: +@props.message.id
         div className: 'form-group',

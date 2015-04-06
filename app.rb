@@ -37,6 +37,15 @@ class SocialCalendarApp < Sinatra::Base
     return response.to_json 
   end
 
+  get '/messages/month/:date' do |date|
+    dateArray = date.split('-')
+    year = dateArray[0]
+    month = dateArray[1]
+    messages = DataStore.where_month(year, month)
+    response = {messages: messages}
+    return response.to_json 
+  end
+
   get '/messages/:id' do |id|
     DataStore.find(id)
   end

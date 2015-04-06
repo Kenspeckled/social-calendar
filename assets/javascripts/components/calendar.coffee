@@ -22,6 +22,7 @@ window.Calendar = React.createClass
 
   getDayRows: (currentDate) ->
     startOfMonth = currentDate.clone().startOf('month')
+    @getMessagesForMonth(startOfMonth)
     dayArray = []
     daysInMonth = currentDate.daysInMonth()
     startingBlankDays = if startOfMonth.day() > 0 then 7 - startOfMonth.day() else 0
@@ -32,27 +33,31 @@ window.Calendar = React.createClass
       day = currentDate.clone().date(d+1)
       day.startOf 'day'
       day.year currentDate.year()
-      @getMessagesForDay(day)
       dayArray.push day
     _.times endingBlankDays, ->
       dayArray.push(null)
     dayRows = _.chunk(dayArray, 7)
     dayRows
 
-  getMessagesForDay: (date) ->
-    dateString = moment(date).format("YYYY-MM-DD")
+  getMessagesForMonth: (date) ->
+    dateString = moment(date).format("YYYY-MM")
     p = new Promise (resolve, reject) ->
       r = new XMLHttpRequest
       r.addEventListener 'readystatechange', ->
         if r.readyState == 4 and r.status == 200
           resolve(r.responseText)
-      r.open 'GET', '/messages/date/'+dateString, true
+      r.open 'GET', '/messages/month/'+dateString, true
       r.send()  
     p.then (response) =>
-      messages = JSON.parse(response).messages
-      @setState (state, props) ->
-        state.dayMessages[+date] = messages
-        return state  
+      data = JSON.parse(response)
+      _.each data.messages, (message) =>
+        @setState (state, props) ->
+          message.time = +moment(+message.time)*1000 # convert to miliseconds
+          d = moment(+message.time).format("YYYY-MM-DD")
+          state.dayMessages[d] = [] if !_.has(state.dayMessages, d)
+          state.dayMessages[d].push message
+          return state  
+      console.log @state
 
   render: ->
     div className: 'custom-calendar-wrap',
@@ -81,4 +86,4 @@ window.Calendar = React.createClass
                     if !day
                       return div null
                     else
-                      return React.createElement CalendarDay, date: day, messages: @state.dayMessages[+day]
+                      return React.createElement CalendarDay, date: day, messages: @state.dayMessages[day.format("YYYY-MM-DD")]

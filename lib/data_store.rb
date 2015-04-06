@@ -25,7 +25,8 @@ class DataStore
       "message", message,
       "service", service
     )
-    @redis.sadd("cm:#{Time.at(time_since_epoch).strftime("%Y%m%d")}", id)
+    @redis.sadd("cm_month:#{Time.at(time_since_epoch).strftime("%Y%m")}", id)
+    @redis.sadd("cm_day:#{Time.at(time_since_epoch).strftime("%Y%m%d")}", id)
   end
 
   def self.create(args)
@@ -37,7 +38,13 @@ class DataStore
 
   def self.where_date(year, month, day)
     dateInt = Time.new(year, month, day).strftime("%Y%m%d")
-    message_ids = @redis.smembers "cm:" + dateInt
+    message_ids = @redis.smembers "cm_day:" + dateInt
+    message_ids.map{|id| DataStore.find(id) }
+  end
+
+  def self.where_month(year, month)
+    dateInt = Time.new(year, month, 1).strftime("%Y%m")
+    message_ids = @redis.smembers "cm_month:" + dateInt
     message_ids.map{|id| DataStore.find(id) }
   end
 
