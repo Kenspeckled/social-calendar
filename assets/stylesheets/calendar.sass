@@ -1,6 +1,8 @@
+@import imports/mixins
+@import imports/variables
 .fc-calendar-container
   position: relative
-  height: 400px
+  height: 550px
   width: 400px
 
 .fc-calendar
@@ -61,22 +63,17 @@
   .fc-head > div
     text-align: center
   .fc-row > div
-    > span
-      &.fc-date
-        position: absolute
-        width: 30px
-        height: 20px
-        font-size: 20px
-        line-height: 20px
-        font-weight: 700
-        color: #ddd
-        text-shadow: 0 -1px 0 rgba(255, 255, 255, 0.8)
-        bottom: 5px
-        right: 5px
-        text-align: right
-      &.fc-weekday
-        padding-left: 5px
-        display: none
+    &.fc-date
+      position: absolute
+      width: 30px
+      height: 20px
+      font-size: 20px
+      line-height: 20px
+      font-weight: 700
+      color: #ddd
+      bottom: 5px
+      right: 5px
+      text-align: right
     &.fc-today
       background: #fff4c3
     &.fc-out
@@ -94,7 +91,6 @@
 
 .custom-inner
   background: #fff
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2)
   &:before
     content: ''
     width: 99%
@@ -123,7 +119,7 @@
 
 .custom-header
   background: #fff
-  padding: 5px 10px 10px 20px
+  padding: 5px 10px
   height: 70px
   position: relative
   border-top: 5px solid #ef4f69
@@ -141,12 +137,11 @@
     font-size: 10px
     font-weight: 700
     color: #b7bbc2
-  nav span
+  nav i 
     position: absolute
     top: 17px
     width: 30px
     height: 30px
-    color: transparent
     cursor: pointer
     margin: 0 1px
     font-size: 20px
@@ -157,20 +152,12 @@
     -moz-user-select: none
     -ms-user-select: none
     user-select: none
+    color: #ef4f69
+    text-align: center
     &:first-child
       left: 5px
     &:last-child
       right: 5px
-    &:before
-      font-family: 'fontawesome-selected'
-      color: #ef4f69
-      position: absolute
-      text-align: center
-      width: 100%
-    &.custom-prev:before
-      content: '\25c2'
-    &.custom-next:before
-      content: '\25b8'
     &:hover:before
       color: #495468
 
@@ -184,6 +171,7 @@
   top: 100%
   left: 0px
   text-align: center
+  overflow: scroll
   -webkit-transition: all 0.6s ease-in-out
   -moz-transition: all 0.6s ease-in-out
   -o-transition: all 0.6s ease-in-out
@@ -231,11 +219,9 @@
 /* Modifications
 
 .fc-calendar-container
-  height: 400px
   width: auto
   padding: 30px
   background: #f6f6f6
-  box-shadow: inset 0 1px rgba(255, 255, 255, 0.8)
 
 .fc-calendar
   .fc-head
@@ -247,48 +233,54 @@
   .fc-row > div
     background: #fff
     cursor: pointer
+    .message-scheduled-count
+      display: inline-block
+      margin: 2px 4px
+      padding: 4px 6px
+      border-radius: 20px
+      color: #888D96 
+      border: 1px solid #EAEBEC 
+      font-size: 12px
+      span
+        margin-left: 5px
+    &:hover
+      .message-scheduled-count
+        color: white
+        border-color: white
+        &.twitter
+          background-color: $twitter
+        &.facebook
+          background-color: $facebook
     &:empty
       background: transparent
-    > span.fc-date
-      top: 50%
-      left: 50%
+    > .fc-date
+      bottom: 5px
+      right: 5px
       text-align: center
-      margin: -10px 0 0 -15px
-      color: #686a6e
       font-weight: 400
       pointer-events: none
+      font-size: 14px
     &.fc-today
       background: #ef4f69
       box-shadow: inset 0 -1px 1px rgba(0, 0, 0, 0.1)
-      > span.fc-date
+      > .fc-date
         color: #fff
         text-shadow: 0 1px 1px rgba(0, 0, 0, 0.1)
-    &.fc-content:after
-      content: '\00B7'
-      text-align: center
-      width: 20px
-      margin-left: -10px
-      position: absolute
+      .message-scheduled-count
+        background-color: transparent
+        border-color: white
+        color: white
+    &.disabled
+      background: #EEE
+      cursor: default
       color: #DDD
-      font-size: 70px
-      line-height: 20px
-      left: 50%
-      bottom: 3px
-    &.fc-today.fc-content:after
-      color: #b02c42
-    &.fc-content:hover:after
-      color: #ef4f69
-    &.fc-today.fc-content:hover:after
-      color: #fff
-    > div
-      a, span
-        display: none
-        font-size: 22px
+      .message-scheduled-count
+        color: #DDD
 
 @media screen and (max-width: 400px)
   .fc-calendar-container
     height: 300px
-  .fc-calendar .fc-row > div > span.fc-date
+  .fc-calendar .fc-row > div > .fc-date
     font-size: 15px
 
 #message-form
@@ -307,3 +299,31 @@
     &.danger
       color: red
 
+#message-list
+  padding: 20px
+  .message
+    padding: 25px 10px
+    border-bottom: 1px solid #CCC
+    font-size: 14px
+    &:first-of-type
+      padding-top: 0
+    &:last-of-type
+      border-bottom: none
+    h5
+      font-size: 16px 
+      font-weight: bold
+      margin: 0 0 3px 0
+      span
+        color: inherit
+        margin-left: 5px
+        font-size: inherit 
+        padding: 0
+        display: inline-block
+    .time,
+    .edit
+      font-size: inherit
+      float: right
+      clear: right
+      font-size: inherit
+      padding: 0
+    

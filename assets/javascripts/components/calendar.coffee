@@ -1,5 +1,5 @@
 #= require './calendarDay'
-{div, span, nav, h2, h3} = React.DOM
+{div, span, i, nav, h2, h3} = React.DOM
 
 window.Calendar = React.createClass
   displayName: 'Calendar'
@@ -38,8 +38,8 @@ window.Calendar = React.createClass
         div id: 'calendar-overlay-container'
         div className: 'custom-header clearfix',
           nav null,
-            span className: 'custom-prev', onClick: @prevMonth
-            span className: 'custom-next', onClick: @nextMonth
+            i className: 'fa fa-arrow-left', onClick: @prevMonth
+            i className: 'fa fa-arrow-right', onClick: @nextMonth
           h2 className: 'custom-month', @state.date.format('MMMM')
           h3 className: 'custom-year', @state.date.format('YYYY')
         div className: 'calendar fc-calendar-container',
