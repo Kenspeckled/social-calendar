@@ -50,12 +50,14 @@ window.Calendar = React.createClass
       r.send()  
     p.then (response) =>
       data = JSON.parse(response)
+      dayMessages = []
       _.each data.messages, (message) =>
         @setState (state, props) ->
           message.time = +moment(+message.time)*1000 # convert to miliseconds
           d = moment(+message.time).format("YYYY-MM-DD")
-          state.dayMessages[d] = [] if !_.has(state.dayMessages, d)
-          state.dayMessages[d].push message
+          dayMessages[d] = [] if !_.has(state.dayMessages, d)
+          dayMessages[d].push message
+          state.dayMessages = dayMessages
           return state  
       console.log @state
 
