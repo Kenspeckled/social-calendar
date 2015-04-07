@@ -8,13 +8,17 @@ require 'coffee_script'
 require 'json'
 
 class SocialCalendarApp < Sinatra::Base
-  use Assets
+  #use Assets  # using precompiled assets instead
 
   scheduler = fork do 
     puts "\nStarting scheduler\n"
     Scheduler.start_polling
   end
   Process.detach(scheduler)
+
+  before do
+    @version = File.read('public/assets/version')
+  end
 
   get '/' do
     slim :index
