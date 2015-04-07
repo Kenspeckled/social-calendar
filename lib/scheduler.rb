@@ -1,5 +1,5 @@
-require './lib/social_platform'
-require './lib/data_store'
+require_relative './social_platform'
+require_relative './data_store'
 class Scheduler
   @should_poll = false
   @poller = nil

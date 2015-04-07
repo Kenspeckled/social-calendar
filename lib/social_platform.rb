@@ -1,4 +1,4 @@
-require './lib/twitter_api_wrapper'
+require_relative './twitter_api_wrapper'
 class SocialPlatform
 
   def self.send_to_social_service(message_hash)
