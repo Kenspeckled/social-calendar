@@ -7,12 +7,10 @@ html
     /link href="/stylesheets/styles.css" rel="stylesheet" type="text/css"
     link href="/assets/styles-#{@version}.css" rel="stylesheet" type="text/css"
   body
-    .container
-      header.clearfix
-        h1
-          | Kenspeckle Social Calendar
-      section.main
-        #calendar-container
+    .container-fluid
+      .row
+        .col-md-8.col-md-offset-2.text-center
+          #calendar-container
 
     /script src="/javascripts/app.js" type="text/javascript"
     script src="/assets/app-#{@version}.js" type="text/javascript"
