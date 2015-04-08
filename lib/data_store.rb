@@ -5,7 +5,7 @@ class DataStore
 
   def self.find(id)
     object = @redis.hgetall("calendar_message:#{id}")
-    object["id"] = id
+    object["id"] = id if object
     return object
   end
 
