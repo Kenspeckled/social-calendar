@@ -21,11 +21,11 @@ window.Calendar = React.createClass
     @setState {date, dayRows}
 
   getDayRows: (currentDate) ->
-    startOfMonth = currentDate.clone().startOf('month')
+    startOfMonth = moment(currentDate).clone().startOf('month')
     @getMessagesForMonth(startOfMonth)
     dayArray = []
     daysInMonth = currentDate.daysInMonth()
-    startingBlankDays = if startOfMonth.day() > 0 then 7 - startOfMonth.day() else 0
+    startingBlankDays = if startOfMonth.day() > 0 then startOfMonth.day() - 1 else 6
     endingBlankDays = if ((daysInMonth + startingBlankDays) % 7) then 7 - ((daysInMonth + startingBlankDays) % 7) else 0
     _.times startingBlankDays, ->
       dayArray.push(null)
