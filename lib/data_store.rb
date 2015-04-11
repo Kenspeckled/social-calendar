@@ -29,6 +29,10 @@ class DataStore
 
   def self.create(args)
     id = @redis.get("calendar_message_id")
+    if !id # this might be the first time this has been set
+      id = 1
+      @redis.set("calendar_message_id", id)
+    end
     if self.update(id, args)
       @redis.incr("calendar_message_id")
     end
