@@ -1,4 +1,5 @@
 require 'redis'
+require 'cgi'
 class DataStore
 
   @redis = Redis.new
@@ -12,7 +13,7 @@ class DataStore
   def self.update(id, args)
     time = args[:time]
     time_since_epoch = Time.at(time).to_i if time
-    message = args[:message]
+    message = args[:message].to_s.force_encoding(Encoding::UTF_8)
     service = args[:service]
     if !id or !time_since_epoch or !message or !service
       raise "Not all values provided"
@@ -20,7 +21,7 @@ class DataStore
     @redis.hmset(
       "calendar_message:#{id}",
       "time", time_since_epoch,
-      "message", message,
+      "message", CGI::escapeHTML(message),
       "service", service
     )
     @redis.sadd("cm_month:#{Time.at(time_since_epoch).strftime("%Y%m")}", id)
