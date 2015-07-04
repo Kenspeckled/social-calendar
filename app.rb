@@ -55,6 +55,7 @@ class SocialCalendarApp < Sinatra::Base
     month = dateArray[1]
     day = dateArray[2]
     messages = DataStore.where_date(year, month, day)
+    messages = CGI::escapeHTML(messages).force_encoding(Encoding::UTF_8)
     response = {messages: messages}
     return response.to_json 
   end
@@ -67,6 +68,7 @@ class SocialCalendarApp < Sinatra::Base
     year = dateArray[0]
     month = dateArray[1]
     messages = DataStore.where_month(year, month)
+    messages = CGI::escapeHTML(messages).force_encoding(Encoding::UTF_8)
     response = {messages: messages}
     return response.to_json 
   end
