@@ -7,6 +7,7 @@ class DataStore
   def self.find(id)
     object = @redis.hgetall("calendar_message:#{id}")
     object["id"] = id if object
+    object['message'] = CGI::escapeHTML(object['message']).force_encoding(Encoding::UTF_8)
     return object
   end
 

@@ -6,7 +6,6 @@ require 'slim'
 require 'sass'
 require 'coffee_script'
 require 'json'
-require 'cgi'
 
 class SocialCalendarApp < Sinatra::Base
   #use Assets  # using precompiled assets instead
@@ -40,7 +39,7 @@ class SocialCalendarApp < Sinatra::Base
       time += seconds
     end
     message[:time] = time 
-    message[:message] = CGI::escapeHTML(params[:message]).force_encoding(Encoding::UTF_8)
+    message[:message] = params[:message]
     message[:service] = params[:service]
     DataStore.create(message)
     redirect to '/calendar'
@@ -90,7 +89,7 @@ class SocialCalendarApp < Sinatra::Base
       time += seconds
     end
     message[:time] = time 
-    message[:message] = CGI::escapeHTML(params[:message]).force_encoding(Encoding::UTF_8)
+    message[:message] = params[:message]
     message[:service] = params[:service]
     DataStore.update(id, message)
     redirect to '/calendar'
